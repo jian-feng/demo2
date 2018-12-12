@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration bindingMode="off" component="servlet" port="8080"/>
+        <rest id="rest-4323195f-1bb0-4dba-bc2c-1124a16a8839">
+            <get id="hello" uri="/hello">
+                <to uri="direct:hello-route"/>
+            </get>
+        </rest>
+        <route id="hello-route">
+            <from id="route-timer" uri="direct:hello-route"/>
+            <setBody id="route-setBody">
+                <simple>{"msg": "Hello World from camel-context.xml"}</simple>
+            </setBody>
+            <log id="route-log" message=">>> ${body}"/>
+        </route>
+    </camelContext>
+</beans>
